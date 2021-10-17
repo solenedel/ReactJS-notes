@@ -183,3 +183,40 @@ To apply the styles, we can just add it as a self-cloding tag inside the AppCont
   <GlobalStyles />
 </AppContainer>
 ```
+
+## using CSS variables with styled components
+
+In a file that uses the styled components library: 
+
+```
+
+const primary-color = 'blue';
+const white = '#fffff';
+
+const Button = styled.button`
+  color: ${primary-color};
+  background-color: ${white};
+`
+```
+
+If we want to reuse the variables in many files, we can modularise the code by having a separate file only for CSS variables: 
+
+```
+const colorVars = {
+  primary-color: 'blue',
+  white: '#fffff',
+};
+
+module.exports = { colorVars };
+```
+
+Here all of the colour variables are properties of a colorVars object, which is exported. To use the variables in other files, just import the object: 
+
+```
+import { colorVars } from './css-variables';
+
+const Button = styled.button`
+  color: ${colorVars.primary-color};
+  background-color: ${colorVars.white};
+`
+```
