@@ -40,6 +40,8 @@ The app will have 3 main components:
 
 `const [todos, setTodos] = useState([])`
 
+If the todolist is on a specific page of the app, it doesn't have to be in App.js. It can be in a child component of App.js.
+
 ### Step 2: create Todo.js, TodoForm.js and TodoList.js in the components folder
 
 Let's start with TodoForm.js. The function should return a <form> with an <input> and a <button> inside it.
@@ -53,6 +55,29 @@ Inside TodoForm, we need to define some state to keep track of input from the us
     completed: false,
   });
   ```
+
+  ## Event handlers in React
+
+  - React handles events differently from other front-end frameworks.
+  - In react, all JSX elements have default camelCase properties on them that correspond to the standard DOM event handlers. 
+  - for example, the click event is named `onClick`, submit event is `onSubmit`, and so on.
+  - event handler functions in React are passed a single parameter which is a type of **SyntheticEvent** that holds data from the DOM event.
+  - In our case, the only properties we care about from this parameter are `target` and `preventDefault()` 
+
+
+
+### Step 3: Define a function to handle when the user types in the input, to keep track of the todo state. 
+
+Let's define this function that takes the event `e` as a parameter:
+
+```
+const handleInputChange = (e) => {
+
+};
+```
+
+This function will update the `task` property on the todo object.
+
 
 
 
