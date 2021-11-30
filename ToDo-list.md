@@ -6,14 +6,6 @@ These notes are following [this tutorial](https://www.youtube.com/watch?v=nUl5QL
 - For react to upate the real DOM, it has to build a new virtual DOM, compare it to the old virtual DOM, and update only the elements that have changed in the actual DOM. 
 - React is a declarative UI framework: meaning there is a layer of abstraction between what the you code in JavaScript, and what is output to the DOM. 
 
-## Introducing the ToDo list app
-
-The app will have 3 main components: 
-  1. TodoForm.js -> renders the form needed for us to add todo items to the list.
-  2. TodoList.js -> renders the list of todos in an array.
-  3. Renders a specific todo from the list and handles its actions.
-
-
 ## Components in react
 
 - components have their own structure and APIs associated with them. 
@@ -22,9 +14,34 @@ The app will have 3 main components:
 
 ## State in react
 
-- state can be an object or a specific data type containing information for our component(s).
+- State can be an object or a specific data type containing information for our component(s).
 - React uses this state information to decide when it should re-render certain components. 
 - In react, **state is immutable** meaning it cannot be modified directly. 
+
+## React hooks
+
+- The most common React hooks are useState and useEffect.
+- **useState** is a function that takes in an initial state as a property, and outputs an array of 2 items.
+
+`const [state, setState] = useState([])`
+
+ - The first item `state` is the actual state, which in this example is an array.
+ - The second item `setState` is a function used to update the state. This function is needed to update the `state` array because state is immutable.
+
+
+## Introducing the ToDo list app
+
+The app will have 3 main components: 
+  1. TodoForm.js -> renders the form needed for us to add todo items to the list.
+  2. TodoList.js -> renders the list of todos in an array.
+  3. Renders a specific todo from the list and handles its actions.
+
+### Step 1: define the todos state in App.js
+
+`const [todos, setTodos] = useState([])`
+
+
+
 
 
 
