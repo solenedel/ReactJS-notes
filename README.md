@@ -1,6 +1,4 @@
 # ⚛️ ReactJS-notes
 
- notes on ReactJS and react libraries.
+ notes on ReactJS and some react libraries.
 
-Libraries: 
-- styled components
