@@ -34,11 +34,26 @@ These notes are following [this tutorial](https://www.youtube.com/watch?v=nUl5QL
 The app will have 3 main components: 
   1. TodoForm.js -> renders the form needed for us to add todo items to the list.
   2. TodoList.js -> renders the list of todos in an array.
-  3. Renders a specific todo from the list and handles its actions.
+  3. Todo.js -> Renders a specific todo from the list and handles its actions.
 
 ### Step 1: define the todos state in App.js
 
 `const [todos, setTodos] = useState([])`
+
+### Step 2: create Todo.js, TodoForm.js and TodoList.js in the components folder
+
+Let's start with TodoForm.js. The function should return a <form> with an <input> and a <button> inside it.
+
+Inside TodoForm, we need to define some state to keep track of input from the user. The `todo` state refers to a single task in the todo list. Its state is represented as an object with an id, the description of the task and whether or not it has been completed.
+
+```
+ const [todo, setTodo] = useState({
+    id: '',
+    task: '',
+    completed: false,
+  });
+  ```
+
 
 
 
