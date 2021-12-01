@@ -110,6 +110,31 @@ Here what we pass to setTodos is a new todos array with the new todo added to th
 
 - Props are properties that we pass to components ourselves. 
 - These props are arbitrary values and describe what should appear on the screen when the component renders.
+- PROPS ARE UNI-DIRECTIONAL!! They only flow in one direction: top-down. Parent components can only pass props to child components, and child components can only receive props from parent components.
+
+
+### Step 6: Pass addTodo as a prop from App.js to TodoForm.js
+
+In App.js, the parent component, we pass it as a prop like so:
+
+```
+ <TodoForm addTodo={addTodo} />
+ ```
+
+ In TodoForm.js, the child component, the prop is received like so: 
+ ```
+ const TodoForm = ({ addTodo }) => { etc }
+ ```
+There are several ways to accept props form parent components. Another syntax is:
+ ```
+ const TodoForm = ({ props }) => { 
+   const { prop1, prop2, prop3 } = props;
+  }
+ ```
+
+
+### Step 7: Handle user submission of the form
+
 
 
 
