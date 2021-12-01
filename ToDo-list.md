@@ -135,6 +135,27 @@ There are several ways to accept props form parent components. Another syntax is
 
 ### Step 7: Handle user submission of the form
 
+When the user submits the form, we want to add the form's `todo` from the state to the list of `todos`. We use a handleSubmit function for this:
+
+```
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  // check that the input is not blank
+  if (todo.task.trim()) {
+    addTodo({ ...todo, id: uuid.v4() });
+
+  // reset task input
+  setTodo({ ...todo, task: '' });
+  }
+};
+```
+
+We get the id from a package called UUID. Use `npm i uuid` to install the package and import uuid at the top of the file.
+
+Once handleSubmit is complete, add it to the <form> element's `onSubmit` event.
+`<form onSubmit={handleSubmit}>`
+
 
 
 
