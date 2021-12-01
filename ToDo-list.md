@@ -255,6 +255,49 @@ We also want to populate our todos array when the app initially renders. So we n
 Now, the todos persist when refreshing the browser.
 
 
+### Step 11: implement actions: toggle complete and delete
+
+Under `addTodo` in App.js, let's make a `toggleComplete` function.
+
+```
+ const toggleComplete = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        // find the selected todo in the todos array
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed, // toggle completion status
+          };
+        }
+        return todo;
+      })
+    );
+  };
+```
+
+Then, pass the function as a prop to the TodoList component:
+`<TodoList todos={todos} toggleComplete={toggleComplete} />`
+
+Add the prop in TodoList.js:
+`const TodoList = ({ todos, toggleComplete }) => { etc }`
+
+In TodoList.js, we also need to pass toggleComplete down to the Todo component so that we can use it when we map over the todos. Don't forget to accept the prop in Todo.js.
+
+We want the toggleComplete function to fire when we click on a todo's checkbox. Inside Todo.js, let's make a new function:
+
+```
+// handle checkbox click to trigger completion toggle
+  const handleCheckboxClick = () => {
+    toggleComplete(todo.id);
+  };
+```
+
+Add the function to a click event:
+`<input type="checkbox" onClick={handleCheckboxClick} />`
+
+
+
 
 
 
