@@ -92,7 +92,7 @@ We want the function to run every time there is a change in the input value, so 
 In App.js, let's create a function `addTodo` that takes in a `todo` task and adds it to the `todos` array.
 
 ```
-const addTodo => {
+const addTodo = (todo) => {
   setTodos([todo, ...todos]);
 };
 ```
@@ -111,6 +111,7 @@ Here what we pass to setTodos is a new todos array with the new todo added to th
 - Props are properties that we pass to components ourselves. 
 - These props are arbitrary values and describe what should appear on the screen when the component renders.
 - PROPS ARE UNI-DIRECTIONAL!! They only flow in one direction: top-down. Parent components can only pass props to child components, and child components can only receive props from parent components.
+- Similarly, props cannot be passed directly between sibling components (components with the same direct parent). In order for sibling components to share props, we must lift up the state to their nearest parent component.
 
 
 ### Step 6: Pass addTodo as a prop from App.js to TodoForm.js
@@ -155,6 +156,34 @@ We get the id from a package called UUID. Use `npm i uuid` to install the packag
 
 Once handleSubmit is complete, add it to the <form> element's `onSubmit` event.
 `<form onSubmit={handleSubmit}>`
+
+
+### Step 8: TodoList component
+
+Now it's time to start working on the TodoList component. TodoList will take in the `todos` prop from App.js.
+
+```
+const TodoList = ({ todos }) => {
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <Todo key={todo.id} todo={todo} />
+      ))}
+    </ul>
+  );
+};
+```
+
+We map through the todos array and render a separate <Todo> component for each todo. When rendering a JSX element using the array map method, each item should have a unique key. In this case we use `todo.id` as the key since we know it is unique. Note: it is bad practice to use the array index as the key!
+
+
+### Step 9: Define the structure of a Todo
+
+Todo.js takes in `todo` as a prop from TodoForm. 
+
+
+
+
 
 
 
