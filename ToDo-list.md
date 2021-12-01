@@ -255,7 +255,7 @@ We also want to populate our todos array when the app initially renders. So we n
 Now, the todos persist when refreshing the browser.
 
 
-### Step 11: implement actions: toggle complete and delete
+### Step 11: implement toggle complete action
 
 Under `addTodo` in App.js, let's make a `toggleComplete` function.
 
@@ -297,6 +297,33 @@ Add the function to a click event:
 `<input type="checkbox" onClick={handleCheckboxClick} />`
 
 
+
+### Step 12: implement delete action
+
+In App.js, create a new function `removeTodo`.
+
+```
+ const removeTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+```
+
+We want to keep a todo in the array if its id is NOT the one we clicked on. If the id does match, it will be removed from the array.
+
+Pass this function to the TodoList component and accept it as a prop in TodoList.js. Also pass it on to the Todo component. 
+
+Similar to the previous action, we need a function `handleRemoveClick` in Todo.js.
+
+```
+  const handleRemoveClick = () => {
+    removeTodo(todo.id);
+  };
+  ```
+
+  Now add this function to the onClick event of the <button>.
+
+
+`<button type="button" onClick={handleRemoveClick}>`
 
 
 
