@@ -66,17 +66,54 @@ Inside TodoForm, we need to define some state to keep track of input from the us
 
 
 
-### Step 3: Define a function to handle when the user types in the input, to keep track of the todo state. 
+### Step 3: Define a function to handle when the user types in the input, to keep track of the todo state
 
 Let's define this function that takes the event `e` as a parameter:
 
 ```
 const handleInputChange = (e) => {
-
+  setTodo({ ...todo, task: e.target.value });
 };
 ```
 
-This function will update the `task` property on the todo object.
+This function will update the `task` property on the todo object. It calls `setTodo` and passes it a new object with the old `todo` object spread onto it, and update the task property with the new value that we get from `e.target.value` - whatthe user types in the input field.
+
+### Step 4: Define when the handleInputChange fuction should run
+
+We want the function to run every time there is a change in the input value, so we use the `onChange` event handler on the <input> element. We also set the `value` attribute to be `todo.task` because that is the value to be updated every time `handleInputChange` is called.
+
+```
+<input type="text" name="task" placeholder="add new task" onChange={handleInputChange} value={todo.task}  />
+```
+
+
+### Step 5: Adding a new todo to the list
+
+In App.js, let's create a function `addTodo` that takes in a `todo` task and adds it to the `todos` array.
+
+```
+const addTodo => {
+  setTodos([todo, ...todos]);
+};
+```
+
+Here what we pass to setTodos is a new todos array with the new todo added to the beginning, followed by the old todos.
+
+
+ ## Properties in React
+
+ - Properties are parameters that live on JSX elements, and look identical to HTML properties.
+ - The only difference is that we are writing the properties in JavaScript.
+ - in React, most of the properties we write will be in camelCase and will in some cases differ from their corresponding HTML properties.  
+
+## Props 
+
+- Props are properties that we pass to components ourselves. 
+- These props are arbitrary values and describe what should appear on the screen when the component renders.
+
+
+
+
 
 
 
