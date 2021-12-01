@@ -353,7 +353,7 @@ const ListContainer = ({ addTodo, todos, removeTodo, toggleComplete }) => {
 App.js should now look like:
 ```
 return (
-    <main className={className} id="home-page-container">
+    <main>
       <ListContainer
         todos={todos}
         addTodo={addTodo}
@@ -364,7 +364,12 @@ return (
   );
 ```
 
-Currently, the app still compiles and works properly. There is no new logic, but we have introduced a new layer between App.js and TodoList and TodoForm.
+Currently, the app still compiles and works properly. There is no new logic, but we have introduced a new layer between App.js and TodoList and TodoForm. Since we only have one list, there were no other lists to map through, but we want to do so in App.js - just like we mapped through `todos` in TodoList.
+
+First, let's add a button in App.js that will let the user create a new list. 
+
+
+
 
 
 
