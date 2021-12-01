@@ -181,6 +181,82 @@ We map through the todos array and render a separate <Todo> component for each t
 
 Todo.js takes in `todo` as a prop from TodoForm. 
 
+```
+const Todo = ({ todo }) => {
+  return (
+    <div style={{ display: 'flex' }}>
+      <input type="checkbox" />
+      <li
+        style={{
+          color: 'white',
+          textDecoration: todo.completed ? 'line-through' : null,
+        }}
+      >
+        {todo.task}
+      </li>
+      <button type="button">X</button>
+    </div>
+  );
+};
+```
+
+Currently, we can add several todos to the list, but refreshing the page will cause all of them to be lost. To fix this, we need to use the browser's **local storage** which will prevent our state from geting reset. 
+
+
+## The useEffect hook
+
+For this, we must use the `useEffect` hook. This hook lets us provide functionality that responds to certain data or functions in our code. 
+
+useEffect takes in 2 parameters: a function (which is the effect), and a dependency array. 
+
+```
+useEffect(() => {
+  // effect
+  return () => {
+    // clean up
+  }
+}, [dependencyArray])
+```
+
+The dependency array is a parameter that gets used to determine if the effect should be fired or not. If one or more variables in the dependency array changes, the effect will be fired. If an empty dependency array is provided, the effect will only fire when the component is initially rendered.
+
+
+
+### Step 10: useEffect to persist state on reload
+
+Every time the `todos` array changes, we want to store the new array inside local storage. 
+
+Outside the component functionh in App.js, define a unique local storage key:
+`const LOCAL_STORAGE_KEY = 'todaylist-todos'`
+
+Next, inside the component function, we will use useEffect:
+
+```
+ // save todos array to local storage
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
+```
+
+The reason we need to stringify the todos is that the only data type that can be saved into local storage is strings.
+
+We also want to populate our todos array when the app initially renders. So we need another useEffect, with an empty dependency array this time. This useEffect should be above the previous one.
+
+```
+  useEffect(() => {
+    const storageTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+
+    if (storageTodos) {
+      setTodos(storageTodos);
+    }
+  }, []);
+```
+
+Now, the todos persist when refreshing the browser.
+
+
+
+
 
 
 
