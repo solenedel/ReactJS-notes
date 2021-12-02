@@ -4,8 +4,6 @@
 https://www.youtube.com/watch?v=L7o0wKjjFi4
 
 
- ## Syntax
-
  We use the spread operator by putting an ellipses (...) right before either an array, or an object.
 
  ` ...arrayName`
@@ -84,7 +82,46 @@ const Employee = (props) => {
 }
 ```
 
-This component just displays the name and id of the employee, which are passed to it as props from App.js.
+This component just displays the name and id of the employee, which are passed to it as props from App.js. We can do this the standard way: 
+
+```
+const firstEmployee = employee[0]; // Bob
+
+return (
+  <div className="App>
+    <Employee
+      name={firstEmployee.name}
+      id={firstEmployee.id}
+      />
+  </div>
+)
+```
+
+A simpler way to pass the props is using the spread operator. This would be especially useful if there are many more props to pass than just name and id.
+
+```
+<Employee {...firstEmployee} />
+```
+
+This will spread the attributes of the object into an empty object {}, and pass these attributes as props.
+
+Another example is that we can combine the properties of the firstEmployee object with a base object.
+
+```
+const baseEmployeeObject = { 
+  role: "employee",
+  company: "ubisoft"
+}
+```
+
+This object has the same properties for all employees. To add these properties to a specific employee, we can do this:
+
+```
+const firstEmployee = { ...baseEmployeeObject, ...employee[0] }
+```
+
+The resulting firstEmployee object will have all the base employee attributes, plus the attributes for that specific employee.
+
 
 
 
