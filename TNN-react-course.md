@@ -67,6 +67,23 @@ const handleClick = (name, e) => {
 
 ## Lesson 8: Using state (useState)
 
+State refers to the date being used in a component at that point in time. The state could be an array, a boolean, object, strings, etc. 
+
+If we declare a normal variable inside a component function, for example:
+`let name = 'mario'`
+This variable is not reactive. Even if we change it in the code, React does not watch this variable for changes and the UI would not be updated (no re-render). 
+
+We can make values reactive with the `useState` hook. A hook is a special type of function in React that does a certiang job. All hooks start with `use`. 
+
+We use array destructuring to store the value of the state, as well as the function used to update the state. 
+
+`const [value, setValue] = useState('state')`
+
+`const [name, setName] = useState('mario');`
+
+Because `name` is now reactive, whenever the value is changed by calling `setName`, this will trigger a re-render with the updated value.
+
+We can use as many reactive values as we want in a component.
 
 
 
