@@ -127,3 +127,53 @@ Example of mapping through blogs:
    );
 ```
 
+
+## Lesson 11: Props
+
+Whenever we have bits of template that are re-used more than once in the app, it's best to turn that template into its own reusable component. Let's turn the template we outputted above into its own <BlogList> component instead of returning the template directly inside the <Home> component.
+
+
+```
+const BlogList = () => {
+  return ( 
+    <div className="blog-list">
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+           <h2>{ blog.title }</h2>
+           <p>Written by { blog.author }</p>
+        </div>
+      ))}
+    </div>
+   );
+}
+```
+
+Then replace the mapped blogs in Home.js with <BlogList />.
+
+At this point, there will be an error: `blogs is not defined` because the BlogList component does not have access to the `blogs` data. We will need to pass `blogs` to <BlogList> as a **prop**. 
+
+Props are a way to pass data from a parent component to a child component. In this case, <BlogList> is the child of <Home>. 
+
+In the parent component: pass the prop
+
+ `<BlogList blogs={blogs} />`
+
+In the child component: receive the prop
+
+Inside the component function, we get access to an argument, the `props` object (arbitrarily named). We can pass and recieve as may props as we want. There are several way to receive props in the child function. 
+
+
+### option 1:
+
+```
+const BlogList = (props) => {
+
+  const blogs = props.blogs;
+  const title = props.title;
+```
+
+### option 2: destructure the props directly (preferred)
+
+```
+const BlogList = ({ blogs, title }) => { }
+```
