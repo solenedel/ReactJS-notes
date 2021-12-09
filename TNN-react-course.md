@@ -177,3 +177,18 @@ const BlogList = (props) => {
 ```
 const BlogList = ({ blogs, title }) => { }
 ```
+
+
+## Lesson 12: Reusing components
+
+We can reuse components such as <BlogList> as many times as we want, and we can even pass different information in them:
+
+```
+<BlogList blogs={blogs} title="All blogs" />
+<BlogList blogs={blogs.filter((blog) => blog.author === 'mario')} title="Mario's blogs" />
+ ```
+
+ In the second <BlogList> component, we are filtering through the blogs and only outputting the blogs written by Mario. This is very useful for implementing a search feature. 
+
+
+ ## Lesson 13: Functions as props
