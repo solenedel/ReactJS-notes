@@ -86,4 +86,44 @@ Because `name` is now reactive, whenever the value is changed by calling `setNam
 We can use as many reactive values as we want in a component.
 
 
+## Lesson 9: React Dev Tools
+
+### Components tab
+- used more than Profiler tab. Shows the component tree of the app.
+- when you click on a component, it shows more info about state, hooks, props, etc. 
+- click on the eye icon to see the matching element in the DOM tree. 
+
+
+## Lesson 10: Outputting lists
+
+When we have a list of something to output (for example, blogs) dynamically, we use the `map` method. We cycle through the array of blogs and return a bit of template for each item. That template is output to the browser. 
+
+### the key property
+
+Whenever we map through items in react, each root element in the template (the outermost element that is returned by the map method) must have a key property. the key property is used by React to keep track of each item in the dom as it outputs it. The key property helps React keep track of items that are deleted from the list. 
+
+If we don't add a unique key to each item, React cannot distinguish between the different items in the list. We usually use an `id` property as the key value. 
+
+Example of mapping through blogs: 
+
+```
+  const [blogs, setBlogs] = useState([
+    { title: 'my new blog', body: 'lorem ipsum', author: 'mario', id: 1 },
+    { title: 'apple', body: 'banana', author: 'luigi', id: 2 },
+    { title: 'kiwi', body: 'pear', author: 'peach', id: 3 }
+  ]);
+
+
+  return ( 
+    <div className="home">
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+           <h2>{ blog.title }</h2>
+           <p>Written by { blog.author }</p>
+        </div>
+      ))}
+    
+    </div>
+   );
+```
 
