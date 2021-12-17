@@ -250,3 +250,49 @@ Let's say we have a state called `name`. If we add `[name]` to the dependency ar
 
 
 
+ ## Lesson 16: using JSON server
+
+ We'll be using the useEffect hook to fetch some data. Inside useEffect is a good place to fetch data inside a component, because we know that it runs the function when the component initially renders. That is generally when we want to go and fetch data. 
+
+ In the current code we have some hard coded blogs in the `blogs` array, but in real life we would most likely be fetching that data from our database. This tutorial will not be going into creatng a database, but we will create a "fake" database in the form of a JSON file. 
+
+ 1. In the root directory of the project, dreate a `data` folder and inside it, a file called `db.json` (name is arbitrary).
+
+ 2. Paste some JSON data into the file.
+
+ ```
+ {
+  "blogs": [
+      {
+      "title": "my new blog",
+      "body": "lorem ipsum", 
+      "author": "mario",
+      "id": "1"
+     }, 
+    {
+      "title": "bloggo",
+      "body": "lorem ipsum and stuff", 
+      "author": "luigi",
+      "id": "2"
+    }, 
+    {
+      "title": "apple",
+      "body": "banana", 
+      "author": "mario",
+      "id": "3"
+    }
+  ] 
+}
+```
+  
+3. use the JSON server package (used directly from the internet here): `npx json-server --watch data/db.json --port 8082`. Make sure to use a port number that is not currently in use.
+
+This will watch the db.json file and wrap it with API endpoints. Every top-level property in the JSON file is treated as an endpoint. So when we run the command above, we will be able to see the JSON data at localhost:8082/blogs.
+
+
+
+
+
+
+
+
