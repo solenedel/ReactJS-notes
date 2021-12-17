@@ -192,3 +192,23 @@ We can reuse components such as <BlogList> as many times as we want, and we can 
 
 
  ## Lesson 13: Functions as props
+
+ If we want to delete a blog, we need a delete button associated with each blog post: 
+ `<button onClick={() => handleDelete(blog.id)}>delete</button>`
+ This would go inside the <div> that is return from `blogs.map()`.
+
+The state of `blogs` is initialised in Home.js. We don't want to directly edit the blogs prop, it is BAD PRACTICE. We should instead use the method `setBlogs` to update the state of blogs.
+
+Therefore, we should define the `handleDelete` function not in BlogList.js where the button that calls this function is located, but in Home.js where the `blogs` state is initialised. Then, we can pass the `handleDelete` function as a prop. (as opposed to passing through both blogs and setBlogs to the BlogList component, and having handleDelete in BlogList.js).
+
+We need to write `handleDelete` in a way that does not mutate the original `blogs` array. 
+
+```
+  const handleDelete = (id) => {
+    const newBlogs = blogs.filter(blog => blog.id !== id);
+    setBlogs(newBlogs);
+  };
+```
+This filters out the id which matches that of the blog we clicked on, and now the newBlogs array does not contain the blog we filtered out. Then we set the new value of `blogs` to be `newBlogs`.
+
+
