@@ -378,10 +378,54 @@ useEffect(() => {
 
   If there's another type of error, for example the request reaches the server, but the server sends an error back (maybe the endpoint we tried to fetch from doesn't exist). The catch block we added doesn't automatically catch those errors when we use the fetch API. This is because the request is still reaching the server, and the server is still sending back a response object. The response will not contain the data we need, and will have an error status.
 
-  
+  In this case, we need to check the response object when we get it back. Every response object has an `ok` property which means the fetch was okay and we got data back. So we want to check if the `ok` property is false, and if so, throw an error. 
 
+  ```
+  fetch('http://localhost:8082/blogs')
+    .then(res => {
+      if (!res.ok) throw Error('could not fetch the data for that resource');
+      return res.json(); 
+    })
+  ```
 
+When we throw a new error like this, it will be caught in the catch block at the end of the promise chain. To simulate this error, change the endpoint URL to something that doesn't exist. 
 
+Now that we are catching both kinds of error, we want to store them in some kind of state so that we can output them to the browser. 
+
+`const [error, setError] = useState(null)`
+
+```
+ .catch((err) => {
+      setError(err.message);
+    })
+```
+
+Then we can output the error message inside the Home component:
+
+```
+return ( 
+    <div className="home">
+      { error && <div>{error}</div> }
+      { isLoading && <div>loading...</div> }
+      { blogs && <BlogList blogs={blogs} title="All blogs" /> }
+    </div>
+   );
+```
+
+This works except when we get an error, we still see the loading... text, which we don't want tin this case. We can solve this by setting the state of `isLoading` to false if we get an error. Lastly, we should set `error` to be null is we successfully get the data back. 
+
+```
+.then(data => {
+      console.log(data);
+      setBlogs(data);
+      setIsLoading(false);
+      setError(null);
+    })
+    .catch((err) => {
+      setError(err.message);
+      setIsLoading(false);
+    });
+```
 
 
 
