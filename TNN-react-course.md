@@ -246,5 +246,7 @@ An empty dependency array as shown above will ensure that useEffect only runs af
 
 Another option is to add actual dependencies to the array- any state values that should trigger the useEffect function to run when they change. 
 
+Let's say we have a state called `name`. If we add `[name]` to the dependency array, this will run the function in useEffect whenever `name` changes. We can also pass more than one item to the dependency array - for example `[name, blogs]`.
+
 
 
