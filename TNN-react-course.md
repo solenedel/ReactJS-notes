@@ -287,9 +287,43 @@ Let's say we have a state called `name`. If we add `[name]` to the dependency ar
   
 3. use the JSON server package (used directly from the internet here): `npx json-server --watch data/db.json --port 8082`. Make sure to use a port number that is not currently in use.
 
-This will watch the db.json file and wrap it with API endpoints. Every top-level property in the JSON file is treated as an endpoint. So when we run the command above, we will be able to see the JSON data at localhost:8082/blogs.
+This will watch the db.json file and wrap it with API endpoints. Every top-level property in the JSON file is treated as an endpoint. So when we run the command above, we will be able to see the JSON data at `localhost:8082/blogs`.
 
 
+
+ ## Lesson 17:fetching data with useEffect
+
+ Let's make a fetch request to get all of the blogs on the initial render of the component. First, replace all of the hard coded data from the initial `blogs` state to be null:
+ `const [blogs, setBlogs] = useState(null);`
+
+ Make a get request to the db.json file: 
+ ```
+   useEffect(() => {
+    fetch('http://localhost:8082/blogs')   // get request
+    .then(res => {
+      return res.json()   // parse JSON into JS object
+    })
+    .then(data => {
+      console.log(data)
+      setBlogs(data)   // update the blogs state with the returned data
+    })
+  }, []);
+```
+
+At this point, there will be a react error: `TypeError: Cannot read properties of null (reading 'map')`. This is because fetching the blogs data takes a bit of time, but react is trying to render the initial value of blogs which is `null`, which cannot be mapped through. 
+
+We don't want to output this code until we have a value for blogs:
+`<BlogList blogs={blogs} title="All blogs" handleDelete={handleDelete} />`
+
+Thus, we use conditional rendering to first check if `blogs` is truthy, and only render the BlogList if it is. 
+
+```
+ <div className="home">
+    { blogs && <BlogList blogs={blogs} title="All blogs" handleDelete={handleDelete} /> }
+ </div>
+```
+
+Let's also delete the handleDelete function and the delete button. These are no longer relevant because we ultimately want to be making delete requests to the db.json file. 
 
 
 
