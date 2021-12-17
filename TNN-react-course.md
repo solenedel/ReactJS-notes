@@ -351,6 +351,36 @@ We also need to make isLoading false after we setBlogs:
 ```
 
 
+ ## Lesson 19: Handling fetch errors
+
+Let's handle errors that could happen when we are making the fetch request. It could be an error sent back from the server, or a connection error where we can't even connect to the server. We wouldn't get the right data back in these cases, so we need to let the user know about the error. 
+
+Use the `.catch()` method to catch any kind of network error - when we can't connect to the server. We can simulate this by cancelling the process from JSON server. 
+
+```
+useEffect(() => {
+    fetch('http://localhost:8082/blogs') // get request
+    .then(res => {
+      return res.json() // parse JSON into JS object
+    })
+    .then(data => {
+      console.log(data);
+      setBlogs(data);
+      setIsLoading(false);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
+  }, []);
+  ```
+
+  The app should now display `loading...` without changing. 
+
+  If there's another type of error, for example the request reaches the server, but the server sends an error back (maybe the endpoint we tried to fetch from doesn't exist). The catch block we added doesn't automatically catch those errors when we use the fetch API. This is because the request is still reaching the server, and the server is still sending back a response object. The response will not contain the data we need, and will have an error status.
+
+  
+
+
 
 
 
