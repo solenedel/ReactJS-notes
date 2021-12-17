@@ -291,7 +291,7 @@ This will watch the db.json file and wrap it with API endpoints. Every top-level
 
 
 
- ## Lesson 17:fetching data with useEffect
+ ## Lesson 17: fetching data with useEffect
 
  Let's make a fetch request to get all of the blogs on the initial render of the component. First, replace all of the hard coded data from the initial `blogs` state to be null:
  `const [blogs, setBlogs] = useState(null);`
@@ -324,6 +324,35 @@ Thus, we use conditional rendering to first check if `blogs` is truthy, and only
 ```
 
 Let's also delete the handleDelete function and the delete button. These are no longer relevant because we ultimately want to be making delete requests to the db.json file. 
+
+ ## Lesson 18: Conditional loading message
+
+ We want to display a loading message while the data is being fetched. Add a piece of state in the Home component called `isLoading`.
+
+`const [isLoading, setIsLoading] = useState(true)`
+
+```
+  return ( 
+    <div className="home">
+      { isLoading && <div>loading...</div> }
+      { blogs && <BlogList blogs={blogs} title="All blogs" /> }
+    </div>
+   );
+```
+
+We also need to make isLoading false after we setBlogs:  
+
+```
+.then(data => {
+      console.log(data);
+      setBlogs(data);
+      setIsLoading(false);
+    })
+```
+
+
+
+
 
 
 
