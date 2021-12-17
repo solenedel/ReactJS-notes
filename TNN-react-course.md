@@ -212,3 +212,39 @@ We need to write `handleDelete` in a way that does not mutate the original `blog
 This filters out the id which matches that of the blog we clicked on, and now the newBlogs array does not contain the blog we filtered out. Then we set the new value of `blogs` to be `newBlogs`.
 
 
+
+ ## Lesson 14: The useEffect Hook
+
+ This is the most commonly used hook in react besides useState. useEffect runs a function every render of a component. A component renders initially on first page load, and also when its state changes. useEffect takes a function as the first argument - this is the function that will run every time there's a re-render. 
+
+ The example below simply logs the most recent version of the `blogs` array.
+
+```
+ useEffect(() => {
+    console.log(blogs);
+  });
+```
+
+### WARNING: changing the state inside useEffect
+
+When we change the state of something inside a useEffect hook, we can end up with infinite re-renders. The ways around this will be explained later.
+
+
+
+ ## Lesson 15: Dependencies of useEffect
+
+ We don't always want to fire the useEffect function after wvery single render- sometimes we only want specific renders to trigger it. We do this by passing a `dependency array` as the second argument to useEffect. 
+
+
+```
+ useEffect(() => {
+    console.log(blogs);
+  }, []);
+```
+
+An empty dependency array as shown above will ensure that useEffect only runs after the first initial render. If the state changese thereafter, it won't run the useEffect function.
+
+Another option is to add actual dependencies to the array- any state values that should trigger the useEffect function to run when they change. 
+
+
+
