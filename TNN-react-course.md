@@ -609,6 +609,55 @@ If we quickly navigate away from Home while the fetching of data with our custom
 
 
 
+ ## Lesson 24: useEffect cleanup
+
+ We want to stop the useFetch hook from continuing to run when we navigate away from the Home page. We will use two things to fix this: 1. A cleanup function in the useEffect hook, and 2. an abort controller. 
+
+ ### Cleanup functions
+
+ A cleanup function is returned by the useEffect hook and fires when the component unmounts. 
+
+ ```
+    // previous useEffect code
+     .catch((err) => {
+      setError(err.message);
+      setIsLoading(false);
+    });
+
+    // cleanup function
+    return () => console.log('cleanup');
+
+
+  }, [url]);
+```
+
+Now we can see in the console that the cleanup function runs every time we navigate away from the Home page. However, if we navigate away quickly we can still see the same warning, so it's time to use an abort controller.
+
+At the top of the useEffect function:
+`const abortCont = new AbortController()`
+
+An abort controller is associated with a specific fetch request, and it can be used to stop the fetch. We do this by adding a second parameter to the `fetch()` function, which is an options object- and we set the `signal` property:
+
+`  fetch(url, { signal: abortCont.signal }) `
+
+To stop the fetch, we go in the cleanup function: 
+
+`return () => abortCont.abort();`
+
+If again navigate too fast, we can still see the same error in the console! This is because when we abort a fetch, it throws an error and we are catching an error -> which means we are still updating the state! Even if we are not updating the data state, the isLoading and error states are trying to be updated. This means we are still trying to update the state of the Home component. 
+
+To go around this we need to look for a specific abort error, and specify that in this case, the state should not be updated. 
+
+```
+  .catch((err) => {
+      if (err.name === 'AbortError') {
+        console.log('fetch aborted');
+      } else {
+        setError(err.message);
+        setIsLoading(false);
+      }
+    });
+```
 
 
 
