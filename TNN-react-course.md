@@ -731,6 +731,69 @@ Then conditionally render the content we need:
 ```
 
 
+ ## Lesson 27: Controlled inputs in React
+
+ Controlled inputs in react are a way to set up input fields in forms, so that we can track their values. We can store the value of what a user types in state. If the state changes, that will also change what we see in the input field. What we see in the input field and the state should always be in sync with each other. 
+
+ In Create.js, let's set up a form.
+
+ ```
+ <form>
+  <label>blog title:</label>
+  <input 
+  type="text"
+  required />
+    <label>blog body:</label>
+  <textarea
+  required></textarea>
+  <label>blog author:</label>
+  <select>
+    <option value="mario">mario</option>
+    <option value="luigi">luigi</option>
+  </select>
+  <button>add blog</button>
+</form>
+ ```
+
+ Currently we can type stuff in the inputs, but we are not keeping track of these values. We need to set up some state in order to do this. 
+
+ For the title input, this will be our state: 
+ `const [title, setTitle] = useState('')`
+
+ We must tell react to associate what in typed in the title inuput, with the `title` state. To do this, we add a value attribute to that input: 
+
+ ```
+ <input 
+  type="text"
+  required
+  value={title} />
+```
+
+Since we set the title to be an empty string, even if we type inside the input not, nothing will shod up inside it. If we change the initial state to a non empty string, this is what will show up in ths input. We need to make it so that when we try to change what's in the titel field, it triggers the `setTitle` function to change the state to what is being typed in. 
+
+To do this, we use the `onChange` event. 
+```
+ <input 
+    type="text"
+    required
+    value={title}
+    onChange={(e) => setTitle(e.target.value)} />
+```
+
+We can output <p>{title}</p> somewhere at the bottom in order to see the title changing in real time as we type in the input. 
+
+We follow the exact same logic with the blog body, by creating a `body` state. How do we deal with the select input? 
+
+For the `author` state, we want the initial value to be one of the values we provide as an option. 
+
+`const [author, setAuthor] = useState('mario')`
+The rest of the logic is exactly the same. 
+
+
+
+
+
+
 
 
 
