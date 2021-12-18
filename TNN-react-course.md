@@ -660,6 +660,80 @@ To go around this we need to look for a specific abort error, and specify that i
 ```
 
 
+ ## Lesson 25: Route parameters
+
+ Sometimes we need to pass dynamic values as part of a route - in other words, a route where a certain part of the url is changeable. For example: `/blogs/12` or `/blogs/45`. Regardless of what the changeable part is, we still want to render the same page/component. The only difference is the blog that is shown on the page, based on its id. 
+
+ The changeable part of a route is a **route parameter** which in this case will correspond to the id of the blog. We will first create a new BlogDetails component which will show the details for a specific blog. Then create a corresponding route for this page. 
+
+ We can't hard-code an id in the Route path. To signify a route parameter, we use a colon, and then the (arbitrary) name of the variable part. For example: 
+
+ `<Route exact path="/blogs/:id">`
+
+Now, if we go to `/blogs/ANYTHING` we will see the correct page, no matter what number (or letters) we put after the slash. 
+
+Inside the BlogDetails component, we need to be able to access whatever the id is, in order to render the correct blog post. To do this we use a hook from `react-router-dom` called `useParams`.
+
+```
+const BlogDetails = () => {
+  const { id } = useParams(); // destructure the param(s) as we named them in the path in App.js
+
+  return ( <div className="blog-details">
+    <h2>blog details - {id}</h2>
+  </div> );
+}
+```
+
+We want to be able to click on any blog in the list of all blogs, and it will take us to the blog details for that specific blog id. In the BlogList component, let's wrap the blog details in a <Link> tag:
+
+```
+<h2>{title}</h2>
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>
+            <h2>{ blog.title }</h2>
+            <p>Written by { blog.author }</p> 
+          </Link>   
+        </div>
+      ))}
+```
+
+Note the template string used as the path in the `to` attribute of the Link tag. Now when we click on a specific blog in the list, it takes us to the details for that specific blog id. 
+
+
+
+ ## Lesson 26: Reusing custom hooks
+
+We can reuse our custom hook `useFetch` to fetch the data for a specific blog id and display it to the page. In side BlogDetails, import the useFetch function and destructure the values we need from it:
+
+```
+const BlogDetails = () => {
+  const { id } = useParams();
+  const { data: blog, error, isLoading } = useFetch('http://localhost:8082/blogs/' + id);
+
+```
+
+Then conditionally render the content we need:
+
+```
+ return ( 
+  <div className="blog-details">
+    { isLoading && <div>loading...</div> }
+    { error && <div>{error}</div> }
+    { blog && (
+      <article>
+        <h2>{blog.title}</h2>
+        <p>Written by: {blog.author}</p>
+        <div>{blog.body}</div>
+      </article>
+    )}
+  </div> );
+```
+
+
+
+
+
 
 
 
