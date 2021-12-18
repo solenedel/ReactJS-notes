@@ -560,7 +560,7 @@ Note that the Navbar component always shows on every page, because it is not nes
 
 
 
- ## Lesson 22:Exact matches
+ ## Lesson 22: Exact path matches
 
  Let's add another route for a new component Create.js- this page will let users create a new blog post. Our routes should now look like this:
 
@@ -588,6 +588,24 @@ The switch component ensures that only one route shows in the browser at a given
 So far, our code is actually still making a request to the server when we change the routes. How can we get react to intercept the requests as it should?
 
 
+
+ ## Lesson 23: Router links
+
+
+In order to get react to handle the content changes in the browser without making new requests, we need to use a special <Link> tag instead of a normal <a> tag in the Navbar where the links to different pages are located. We need to import Link from the react-router-dom package. 
+
+<Link> components don't have an `href` attribute like anchor tags do. Instead they use the attribute `to`. 
+
+It should now look like this:
+
+```
+ <div className="links">
+    <Link to="/">Home</Link>
+    <Link to="/create">New blog</Link>
+ </div>
+```
+
+If we quickly navigate away from Home while the fetching of data with our custom hook is still in progress, we will see a warning in the console: "can't perform a react state update on an unmounted component". This is because our custom fetch hook is still running in the background even though we have navigated away from the page. It's trying to update the state of our Home component after it's been unmounted from the DOM and replaced with the new component we navigated to. 
 
 
 
