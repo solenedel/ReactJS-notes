@@ -504,6 +504,96 @@ Option 2: Import the data under the name `blogs` in Home.js:
 
 
 
+ ## Lesson 21: The react router
+
+  ### typical (non-react) webistes
+  If the user clicks on a link to another page, it will send a brand new request to the server. Requests are constantly made to the server each time the user navigates to a different page. 
+
+  ### React websites
+  In react, all changing of page content is delegated to the browser only. We do make an initial request to the server, which the server responds to. Besides returning the html page, it also sends a bundle of compiled react code. React injects content dynamically using the components we create. 
+
+  ### The React Router
+
+  If we navigate to a new page, the React Router steps in and intercepts the request to stop it from going to the server. Instead, it will inject the required content (component) on the screen. 
+
+  We assign a top-level component for each route or page. For example: 
+   /  -> Home.js
+   /contact -> Contact.js
+   /about -> About.js
+
+   Thanks to this, we make less requests to the server and the whole website feels faster. 
+
+   Installing and using the React Router:
+
+   1. `npm install react-router-dom@5` 
+
+   NOTE: we install version 5 as it is stable -> however at this time, there have been many changes to how we use React Router (mostly naming convention) so this part of the tutorial is a bit outdated.
+
+
+   2. In the root component (App.js) we need to import several things:
+   `import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'`
+
+   3. Surround the entire application with the <Router> component. All componets nested in the Router component can have access to the router. 
+
+   4. All of the routes go inside the <Switch> component. Create a route for each page we have using a <Route> component for each page. The <Route> component should have a `path` attribute which specifies the relative path to the page.
+```
+   function App() {
+
+    return (
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="content">
+            <Switch>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </div>
+        </div>
+      </Router> 
+    );
+  }  
+```
+
+Note that the Navbar component always shows on every page, because it is not nested inside the Switch component. 
+
+
+
+ ## Lesson 22:Exact matches
+
+ Let's add another route for a new component Create.js- this page will let users create a new blog post. Our routes should now look like this:
+
+ ```
+ <Switch>
+  <Route path="/">
+    <Home />
+  </Route>
+    <Route path="/create">
+    <Create />
+  </Route>
+ </Switch>
+```
+
+At this point, clicking on the 'new blog' link in the Navbar will bring us to the home page, which is not what we want. This is because of the way React looks at route paths and matches them against the routes we create. It stops at the first route it finds to be a correct match. Reach counts "/" as a match for "/create" because the "/" route exists inside  "/create". Similarly, a route "/c" would match "/create".
+
+In order to get around this, all we need is to specify react to only match an exact match, by adding the `exact` prop before the path attribute like so: 
+`<Route exact path="/create">`
+
+
+### The Switch component
+
+The switch component ensures that only one route shows in the browser at a given time. Without this component, we could end up with more than one route showing up at one time.
+
+So far, our code is actually still making a request to the server when we change the routes. How can we get react to intercept the requests as it should?
+
+
+
+
+
+
+
+
 
 
 
