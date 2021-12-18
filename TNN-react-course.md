@@ -429,6 +429,81 @@ This works except when we get an error, we still see the loading... text, which 
 
 
 
+ ## Lesson 20: Making a custom hook
+
+ What is we wanted to re-use the same logic for fetching data, along with the corresponding states, in another components? We would have to re-write all of this code again, which is not efficient nor easy to manage. We can increase reusability by putting the code we need to reuse in its own file. Then we import the file to use it in a comopnent. This way, we are only writing and mainting the code in one place. 
+
+ When we externalise such logic into its own file, we are creating a **custom hook** in react. 
+
+ Making a custom hook:
+
+ 1. Inside the src folder, create a new file called `useFetch.js` (remember all hooks start with use-).
+
+ 2. The code we need to reuse will be wrapped inside a function `useFetch`, which is the hook itself. Custom hooks must start with `use-` otherwise it won't work.  
+
+ 3. Copy and paste the logic to reuse inside `useFetch`. This includes all of the states, as well as the entire useEffect function. 
+
+ 4. At the bottom of the useFetch function, we need a return value. The return value can be anything we want- an array, a string or a boolean. In our case the return value will be an object with 3 properties, which correspond to the 3 states we initiated in the function.
+
+ 5. Instead of hard-coding the URL endpoint, we take `url` as a parameter to useFetch. This also means we need to make [url] a dependency to the useEffect function, os that if the url changes, it will re-run the data to get that endpoint. 
+  
+ 5. Import React, useState, useEffect in the file, and `export default useFetch` at the bottom of the file. 
+
+ Our useFetch.js file should look like this now:
+
+```
+import { useEffect, useState } from "react";
+
+const useFetch = (url) => {
+
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+ 
+
+  useEffect(() => {
+    fetch(url) // get request
+    .then(res => {
+      if (!res.ok) throw Error('could not fetch the data for that resource');
+
+      return res.json(); // parse JSON into JS object
+    })
+    .then(data => {
+      console.log(data);
+      setData(data);
+      setIsLoading(false);
+      setError(null);
+    })
+    .catch((err) => {
+      setError(err.message);
+      setIsLoading(false);
+    })
+  }, [url]);
+
+  return {data, isLoading, error};
+};
+
+export default useFetch;
+```
+
+
+To use our custom hook, we need to import it into our Home component. 
+`import useFetch from "../useFetch"`
+
+Then we use the hook like so, to make the same request to the blogs as before:
+`const {data, isLoading, error} = useFetch('http://localhost:8082/blogs')`
+
+NOTE: since the data we are using in this specific component is the blogs data, we have 2 options: 
+
+
+Option 1: rename blogs to data in the JSX returned:
+`{ data && <BlogList blogs={data} title="All blogs" /> }`
+
+Option 2: Import the data under the name `blogs` in Home.js:
+`const { data: blogs, isLoading, error } = useFetch('http://localhost:8082/blogs')`
+
+
+
 
 
 
