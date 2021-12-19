@@ -861,6 +861,22 @@ Then, conditionally load different buttons depending on the loading state:
 ```
 
 
+ ## Lesson 30: Programmatic redirects
+
+ We want to rediredt the user to the home page once the blog submission is complete. To do this, we can use another hook: `useHistory` which allows us to go backwards and forwards in history, and add a new page to the history. This history can be imported from the react-router-dom package.
+
+ We then need to invoke the constant (right after declaring the states of the component).
+ `const history = useHistory()`
+
+ An example of going back using the history: 
+ `history.go(-1)` 
+ This would go back one page through history. To go forward in history, we just pass a positive integer instead. 
+
+ However, we want to redirect the user back to the home page. We do this by using the `push` method, to which we pass the route we want to go to: 
+ `history.push('/')` 
+
+
+
 
 
 
