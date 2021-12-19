@@ -861,7 +861,7 @@ Then, conditionally load different buttons depending on the loading state:
 ```
 
 
- ## Lesson 30: Programmatic redirects
+ ## Lesson 30: Programmatic redirects with useHistory
 
  We want to rediredt the user to the home page once the blog submission is complete. To do this, we can use another hook: `useHistory` which allows us to go backwards and forwards in history, and add a new page to the history. This history can be imported from the react-router-dom package.
 
@@ -876,6 +876,63 @@ Then, conditionally load different buttons depending on the loading state:
  `history.push('/')` 
 
 
+ ## Lesson 31: Deleting blogs
+
+ Add a delete button in the BlogDetails component:
+ ```
+  <button onClick={handleClick}>delete</button>
+ </article>
+ ```
+
+ the click handler:
+ ```
+  const handleClick = () => {
+    // in the fetch we can either use blog.id or id, same thing here
+    fetch('http://localhost:8082/blogs/' + blog.id, { 
+      method: 'DELETE'
+    })
+    .then(() => {
+      history.push('/');
+    });
+  };
+ ```
+
+ Don't forget to declare the history before: `const history = useHistory()`
+
+
+
+ ## Lesson 32: 404 page
+
+ Creata a new component: NotFound.js
+
+ ```
+ const NotFound = () => {
+  return ( 
+    <div className="not-found">
+      <h2>sorry, page not found</h2>
+      <Link to="/">Back to home</Link>
+    </div>
+   );
+}
+```
+
+We want to show this component when a user goes to a page that doesn't exist. We do this by adding a catch-all route in App.js. 
+
+Add a new route at the bottom, and set the path to be an asterisk *:
+```
+ <Route path="*">
+    <NotFound />
+  </Route>
+```
+
+The * means "catch any other route" and this route must go at the very bottom, because otherwise it would match any route at all. 
+
+
+# End of tutorial #
+
+## Not covered:
+- persisting state on reload
+- prev
 
 
 
