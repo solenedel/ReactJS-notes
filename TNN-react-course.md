@@ -797,6 +797,70 @@ When a button is pressed inside a form, it fires a submit event on the form itse
 
 By default, submitting a form refreshes the page, and we want to prevent that default action. We also want to create a blog object which will be saved to the database. 
 
+```
+ const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const blog = { title, body, author};
+  };
+```
+
+
+ ## Lesson 29: Making a POST request (Json server)
+
+Since we will only be making post requests once in this app, we can directly have the post request inside `handleSubmit`.
+
+```
+ const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const blog = { title, body, author};
+
+    fetch('http://localhost:8082/blogs', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(blog)
+    })
+     .then(() => {
+      console.log('new blog added');
+    })
+  };
+```
+
+With the above code, we can already see that we can post a new blog and it will show up in the blog list on the home page.
+
+Let's add a loading state for when we click on the add blog button.
+
+```
+const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const blog = { title, body, author};
+
+    setIsLoading(true);
+
+    fetch('http://localhost:8082/blogs', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(blog)
+    })
+    .then(() => {
+      console.log('new blog added');
+      setIsLoading(false);
+    })
+  };
+```
+
+Then, conditionally load different buttons depending on the loading state:
+
+```
+ { !isLoading && <button>add blog</button> }
+ { isLoading && <button disabled>adding blog...</button> }
+```
+
+
 
 
 
