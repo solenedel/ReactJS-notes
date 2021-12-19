@@ -791,6 +791,15 @@ The rest of the logic is exactly the same.
 
 
 
+ ## Lesson 28: Submitting a form
+
+When a button is pressed inside a form, it fires a submit event on the form itself. So we can listen for that submit event and react to it. Another option is to attatch a click event on the button itself, but here we will react to the submit event with a `handleSubmit` function.
+
+By default, submitting a form refreshes the page, and we want to prevent that default action. We also want to create a blog object which will be saved to the database. 
+
+
+
+
 
 
 
