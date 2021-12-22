@@ -327,48 +327,6 @@ Similar to the previous action, we need a function `handleRemoveClick` in Todo.j
 
 
 
-## Section B: extra features (not in linked tutorial)
-
-### Task: let the user create more to-do lists
-
-We need to introduce a new layer- there will now be a component that wraps <TodoList> and <TodoForm>, let's call it <ListContainer>. In App.js (or whichever page originally rendered the <TodoList> and <TodoForm> components) we will need to map through each <ListContainer>.
-
-Let's move the current JSX structure of App.js into the new ListContainer.js. Don't forget to pass the props from App.js to ListContainer.js
-
-```
-const ListContainer = ({ addTodo, todos, removeTodo, toggleComplete }) => {
-  return (
-    <section>
-      <div className="today list">
-        <h2>Today</h2>
-        <TodoForm id="today" className="today" addTodo={addTodo} />
-        <TodoList todos={todos} toggleComplete={toggleComplete} removeTodo={removeTodo} />
-      </div>
-    </section>
-  );
-};
-
-```
-
-App.js should now look like:
-```
-return (
-    <main>
-      <ListContainer
-        todos={todos}
-        addTodo={addTodo}
-        removeTodo={removeTodo}
-        toggleComplete={toggleComplete}
-      />
-    </main>
-  );
-```
-
-Currently, the app still compiles and works properly. There is no new logic, but we have introduced a new layer between App.js and TodoList and TodoForm. Since we only have one list, there were no other lists to map through, but we want to do so in App.js - just like we mapped through `todos` in TodoList.
-
-First, let's add a button in App.js that will let the user create a new list. 
-
-
 
 
 
