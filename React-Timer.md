@@ -56,13 +56,44 @@ The basic timer functionality is now working. Next we style the appearance of th
 
 ```
   <div>
-    <span>{('0' + ((time / 1000) % 60)).slice(-2)}</span>
+     <span id="seconds">{('0' + Math.floor((time / 1000) % 60)).slice(-2)}</span> 
   </div>
 ```
 
 The above logic prepends a zero for if the seconds are less than 2 digits. If seconds is more than 2 digits, `slice(-2)` is used to slice off the prepending zero. We divide milliseconds by 1000 to get the seconds, and use the modulus 60 to ensure that the number returns to zero after 60 seconds have passed.
 
-### Displaying the seconds:
+
+### Displaying the minutes:
+
+```
+  <span id="minutes">{('0' + Math.floor((time / 60000) % 60)).slice(-2)}</span>
+```
+
+The final code should look like this:
+```
+ <div>
+    <span id="minutes">{('0' + Math.floor((time / 60000) % 60)).slice(-2)} : </span>
+    <span id="seconds">{('0' + Math.floor((time / 1000) % 60)).slice(-2)}</span> 
+ </div>
+```
 
 
+## Step 5
+
+We will do some conditional rendering of the buttons. 
+
+```
+  {!timerOn && time === 0 && (
+    <button onClick={() => setTimerOn(true)}>Start</button>)}
+  {timerOn && (<button onClick={() => setTimerOn(false)}>Stop</button>)}  
+  {!timerOn && time !== 0 && (
+    <button onClick={() => setTimerOn(true)}>Resume</button>
+  )}
+  {!timerOn && time > 0 && ( 
+      <button onClick={() => {
+    setTimerOn(false);
+    setTime(0);
+  }}>Reset</button>
+  )}
+```
 
