@@ -19,14 +19,95 @@ Context is not always the best solution. It is designed to share data that is co
 However, if for example you just need to pass a prop down to its child component to be used once, it would make more sense to use props. 
 
 
+ ## 3 - Adding a Context & Provider
+
+We should keep all the context-related files in one place by creating a `context` folder inside the `src` folder. 
+
+In this example we will create `ThemeContext.js` inside the context folder, which will contain the data for the colour theme of our app. 
+
+Inside this file: 
+
+```
+import React, { createContext } from 'react';
+
+export const ThemeContext = createContext();
+```
+
+This will create a new context for us, but right now this doesn't do much because we haven't defined any data for this context, or provided it to any components. 
+
+In the same file, let's create a class component: 
+
+```
+class ThemeContextProvider extends React.Component {
+  state = {
+    isLightTheme: true,
+    light: { text: '#555', ui: '#ddd', bg: '#eee' }, 
+    dark: { text: '#ddd', ui: '#333', bg: '#555' }
+  }
+  render() { 
+    return <div></div>;
+  }
+}
+ 
+export default ThemeContextProvider;
+```
+
+Here, we have added some state which represents the theme data we want to share between components of the app. 
+
+Whenever we create a context, whatever name we give it- we are given a `Provider` on that context. This is what will wrap our components so that the theme data can be used inside them. 
+
+We also need to provide a `value` property, which will take in whatever data we want to provide tothe components. The value we passed to it is an object spread from the original state object declared previously. 
+
+```
+ render() { 
+    return (
+      <ThemeContext.Provider value={{...this.state}}>
+      </ThemeContext.Provider>
+    )
+  }
+```
+
+Now let's import ThemeContextProvider into App.js and surround the components with it. 
+
+```
+function App() {
+  return (
+    <div className="App">
+      <ThemeContextProvider>
+         <Navbar />
+         <BookList />
+      </ThemeContextProvider>
+    </div>
+  );
+}
+```
+
+At the moment, nothing will show up on our app. Inside <ThemeContext.Provider> we need to output the components wrapped by <ThemeContextProvider> inside App.js. When we surround components using <ThemeContextProvider>, the children (in this case Navbar and BookList) are attatched to the props of the <ThemeContextProvider>.
+
+We can access these components inside `ThemeContext.js` like so: 
+
+```
+ return (
+      <ThemeContext.Provider value={{...this.state}}>
+        {this.props.children}
+      </ThemeContext.Provider>
+    )
+```
+
+Now, we will see the components show up on the page. It will look like before we added context, but if we look at the component tree using React Dev Tools, we see this: 
+
+```
+<ThemeContextProvider>
+  <Context.Provider>
+    <Navbar />
+    <BookList />
+```
+
+We can see the props of <Context.Provider>, which include the children components as well as the values which represent the theme data. 
 
 
 
-
-
-
-
-
+-----------------
 
 ## Sources used: 
 [The Net Ninja- react context & hooks](https://www.youtube.com/watch?v=CGRpfIUURE0&ab_channel=TheNetNinja)
@@ -35,3 +116,4 @@ However, if for example you just need to pass a prop down to its child component
 Notes: 
 - useRef
 - React life cycle
+- prev & spread syntax
