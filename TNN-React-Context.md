@@ -107,6 +107,34 @@ We can see the props of <Context.Provider>, which include the children component
 
 
 
+ ## 4 - Accessing context (Part 1)
+
+ How can we access the theme data from within the Mavbar or BookList components? When using class components, there are several ways we can do this. In this video we will use the **contextType** to achieve this. **NOTE: it cannot be used in functional components** 
+
+Example, in the Navbar: 
+
+```
+class Navbar extends React.Component {
+  static contextType = ThemeContext;
+
+```
+Note that we are setting the contextType to the **context itself, NOT the provider**. What this does is look up the component tree, to the first time it finds a provider for the specified context.
+
+It takes the data we passed to the `value` property of the context provider and attaches it to a `context` property inside the component. Let's log it to the console to see if we have the data: 
+
+```
+class Navbar extends React.Component {
+  static contextType = ThemeContext;
+
+  render() { 
+    console.log(this.context);
+    
+    return ( ....
+```
+
+The `this` keyword here refers to the `Navbar` component, and we can see that the `context` property indeed contains the theme data. 
+
+
 -----------------
 
 ## Sources used: 
