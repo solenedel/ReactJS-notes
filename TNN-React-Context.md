@@ -154,7 +154,7 @@ class BookList extends React.Component {
   static contextType = ThemeContext;
 
   render() { 
-    
+
     const { dark, light, isLightTheme } = this.context;
     const theme = isLightTheme ? light : dark;
 
@@ -169,6 +169,39 @@ class BookList extends React.Component {
 }
 ```
 
+
+ ## 5 - Accessing context (Part 2)
+
+Previously we consumed context inside components using the contextType property. Let's look at another way to do this using the **context consumer**. Like we have the `Provider` given to us when we create a context, we also have a `Consumer`. 
+
+We have to wrap the JSX of the component with <ThemeContext.Consumer> and then pass in a function which takes the context as a parameter. The function returns the JSX we had previously. 
+
+```
+  return (
+      <ThemeContext.Consumer>{(context) => {
+
+        const { dark, light, isLightTheme } = context;
+        const theme = isLightTheme ? light : dark;
+
+        return (
+          <nav style={{background: theme.ui, color: theme.text}}>
+            <h1>Context App</h1>
+            <ul>
+              <li>Home</li>
+              <li>About</li>
+              <li>Contact</li>
+            </ul>
+          </nav>
+        )
+      }}</ThemeContext.Consumer>
+    );
+```
+
+What is happening here? We get access to the context data as the first parameter of the function. Note that we now refer to the context simply as `context` and not `this.context`.
+
+Should we use this method or the previous one? When using class components, prefer the first method (using **contextType**). 
+
+But the second method can also be used in functional components (while the first method cannot). Another benefit of using the **consumer** is that we can consume multiple contexts in one component.  
 
 
 -----------------
