@@ -311,9 +311,51 @@ function App() {
 In this case, it doesn't matter if we switch the positions of AuthContextProvider and ThemeContextProvider because they both wrap the same components. 
 
 
+ ## 7 - Consuming multiple contexts
 
+ If we want to use two separate contexts in the same component, how do we do this?
 
+ The code below would not work because we would have two static properties with the exact same name `contextType` but different values. 
+ ```
+ static contextType = ThemeContext;
+ static contextType = AuthContext;
+```
 
+We have two options: 
+
+1. We can use one context using the `static contextType` method and another using the Consumer tag.
+
+2. We can use two consumer tags -> this is the method we will try now.
+
+In Navbar.js, surround the <ThemeContext.Consumer> with the new <AuthContext.Consumer> tag. We need to provide a function, and this will return all of the JSX we had previously, like so: 
+
+```
+ return (
+      <AuthContext.Consumer>{(authContext) => (
+        <ThemeContext.Consumer>{(themeContext) => {
+
+          const { isAuthenticated, toggleAuth } = authContext;
+          const { dark, light, isLightTheme } = themeContext;
+          const theme = isLightTheme ? light : dark;
+
+          return (
+            <nav style={{background: theme.ui, color: theme.text}}>
+              <h1>Context App</h1>
+              <div onClick={toggleAuth}>{isAuthenticated ? 'Logged in' : 'logged out'}</div>
+              <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Contact</li>
+              </ul>
+            </nav>
+          )
+
+        }}</ThemeContext.Consumer>
+      )}</AuthContext.Consumer>
+    )
+```
+
+Note how we changed the names of the parameters from `context` to `AuthContext` and `themeContext` since we now have more than one context being used. We now have access to both contexts in the Navbar component. 
 
 
 
