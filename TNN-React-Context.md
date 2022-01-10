@@ -260,6 +260,55 @@ Add the ThemeToggle to App.js. The toggle button now works to change the theme.
 
 
 
+ ## 6 - Creating multiple contexts
+
+ What if we have more data we need to share between components, besides the theme data. For example, user authentication data. Should we put it in the same context as the theme? That wouldn't be a good idea, because the ThemeContext we created is only for the theme. 
+
+ Instead we should create a separate context just for the authentication data. Inside the context folder, create AuthContext.js. 
+
+ ```
+export const AuthContext = createContext();
+
+class AuthContextProvider extends React.Component {
+
+  state = {
+    isAuthenticated: false, 
+  }
+
+  toggleAuth = () => {
+    this.setState((prevState) => { return { isAuthenticated: !prevState.isAuthenticated }})
+  }
+
+  render() { 
+    return (
+      <AuthContext.Provider value={{...this.state, toggleAuth: this.toggleAuth}}>
+        {this.props.children}
+      </AuthContext.Provider>
+    );
+  }
+}
+```
+
+Again, we need to nest the components that will use the AuthContext inside <AuthContextProvider>.
+
+```
+
+function App() {
+  return (
+    <div className="App">
+      <AuthContextProvider>
+        <ThemeContextProvider>
+          <Navbar />
+          <BookList />
+          <ThemeToggle />
+        </ThemeContextProvider>
+      </AuthContextProvider>
+    </div>
+  );
+}
+```
+
+In this case, it doesn't matter if we switch the positions of AuthContextProvider and ThemeContextProvider because they both wrap the same components. 
 
 
 
@@ -275,6 +324,9 @@ Add the ThemeToggle to App.js. The toggle button now works to change the theme.
 
 ## Sources used: 
 [The Net Ninja- react context & hooks](https://www.youtube.com/watch?v=CGRpfIUURE0&ab_channel=TheNetNinja)
+
+### To read 
+- https://reactjs.org/docs/state-and-lifecycle.html#state-updates-may-be-asynchronous
 
 
 Notes: 
