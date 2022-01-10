@@ -134,6 +134,42 @@ class Navbar extends React.Component {
 
 The `this` keyword here refers to the `Navbar` component, and we can see that the `context` property indeed contains the theme data. 
 
+We can destructure the different properties from `this.context` so that each one can be accessed separately. 
+
+`const { dark, light, isLightTheme } = this.context` // inside the render method
+
+Now we can add the logic to conditionally render the theme: 
+
+`const theme = isLightTheme ? light : dark` // inside the render method
+
+` <nav style={{background: theme.ui, color: theme.text}}>`
+
+At this point, we see the colours being applied to the Navbar and we can check/uncheck isLightTheme in the React dev tools to see the theme changes. 
+
+Similarly, adding the theme to the BookList component: 
+
+```
+class BookList extends React.Component {
+
+  static contextType = ThemeContext;
+
+  render() { 
+    
+    const { dark, light, isLightTheme } = this.context;
+    const theme = isLightTheme ? light : dark;
+
+    return <div className="book-list" style={{color: theme.text, background: theme.bg}}>
+      <ul>
+        <li style={{background: theme.ui}}>Book 1</li>
+        <li style={{background: theme.ui}}>Book 2</li>
+        <li style={{background: theme.ui}}>Book 3</li>
+      </ul>
+    </div>;
+  }
+}
+```
+
+
 
 -----------------
 
