@@ -204,6 +204,73 @@ Should we use this method or the previous one? When using class components, pref
 But the second method can also be used in functional components (while the first method cannot). Another benefit of using the **consumer** is that we can consume multiple contexts in one component.  
 
 
+ ## 6 - Updating context data 
+
+ What is we want to change the shared state data at some point?
+
+ To illustrate this, let's create a new `ThemeToggle` component that we can use to switch between the themes. This will use the `isLightTheme` data and change it when we click on the button. 
+
+ ```
+ class ThemeToggle extends React.Component {
+  render() { 
+    return (
+      <button onClick={}>Toggle theme</button>
+    )
+  }
+}
+```
+
+The click handler function has not been defined yet. It should be defined in the ThemeContextProvider class where we definied the initial state, since we might need the function in different components. See the `toggleTheme` function below (NOTE: corrected from the original code in the tutorial video). 
+
+```
+class ThemeContextProvider extends Component {
+  state = {
+    isLightTheme: true,
+    light: { text: '#555', ui: '#ddd', bg: '#eee' }, 
+    dark: { text: '#ddd', ui: '#333', bg: '#555' }
+  }
+
+  toggleTheme = () => {
+    this.setState(( prevState ) => { return {isLightTheme : !prevState.isLightTheme} });
+  };
+```
+
+Now we add the toggleTheme function as another property to the object we passed as the `value` property of <ThemeContext.Provider>.
+
+`<ThemeContext.Provider value={{...this.state, toggleTheme: this.toggleTheme }}>`
+
+Now we should have access to the toggleTheme function inside any component that consumes the theme context. Let's add it to the ThemeToggle component. 
+
+```
+class ThemeToggle extends React.Component {
+
+  static contextType = ThemeContext; 
+
+  render() { 
+      const { toggleTheme } = this.context;
+       
+      return (
+      <button onClick={toggleTheme}>Toggle theme</button>
+    )
+  }
+}
+```
+
+Add the ThemeToggle to App.js. The toggle button now works to change the theme. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -----------------
 
 ## Sources used: 
