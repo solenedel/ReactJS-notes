@@ -434,7 +434,58 @@ const handleSubmit = (e) => {
 
 
 
+ ## 12 - useEffect hook
 
+ useEffect hook is a bit like a life cycle method that would be used inside a class component in react. We don't have access to lifecycle methods in functional components.
+
+ useEffect can be used in functional components. It takes in a callback function as a parameter, which runs every time the the component renders. Typically, it would be used to connect to a database or API endpoint. 
+
+ A simple example: 
+
+```
+useEffect(() => {
+  console.log('useEffect ran', songs);
+})
+```
+
+This runs every time the component (re) renders, AKA every time the data inside the component changes (and on the very first render). But what if we have lots of different data in the component, and useEffect runs every time any one of those changes? We might not want to run the particular callback function in useEffect every time any data changes. 
+
+If we only want to run the function when a specific data changes (for example songs), we pass a second parameter to the useEffect hook. This is the **dependency array** which contains the values we want to watch for. This is the specified data that will trigger a re-render, and therefore useEffect, to run. 
+
+```
+useEffect(() => {
+  console.log('useEffect ran', songs);
+}, [songs]);
+```
+
+
+
+ ## 13 - React hooks with context (useContext)
+
+ Back to the Book List app. 
+
+ Since we can only use the contextType to consume context in a class component, what should we do if we want to turn the BookList class component into a functional component? 
+
+ We can do this with the **useContext hook**. (We could use the Context Consumer tag, but the useContext hook is much cleaner).
+
+ ```
+
+const BookList = () => {
+
+   const { dark, light, isLightTheme } = useContext(ThemeContext);
+   const theme = isLightTheme ? light : dark;
+
+  return ( 
+    <div className="book-list" style={{color: theme.text, background: theme.bg}}>
+      <ul>
+          <li style={{background: theme.ui}}>Book 1</li>
+          <li style={{background: theme.ui}}>Book 2</li>
+          <li style={{background: theme.ui}}>Book 3</li>
+      </ul>
+    </div>
+   );
+}
+```
 
 
 
