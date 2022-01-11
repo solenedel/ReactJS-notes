@@ -469,7 +469,6 @@ useEffect(() => {
  We can do this with the **useContext hook**. (We could use the Context Consumer tag, but the useContext hook is much cleaner).
 
  ```
-
 const BookList = () => {
 
    const { dark, light, isLightTheme } = useContext(ThemeContext);
@@ -487,7 +486,19 @@ const BookList = () => {
 }
 ```
 
+ ## 14 - Multiple contexts with hooks
 
+ We can use `useContext` as many times as we want in a component, to use as many different contexts as we want. 
+
+ Let's turn Navbar into a functional component. 
+
+ ```
+ const Navbar = () => {
+
+  const { isAuthenticated, toggleAuth } = useContext(AuthContext);
+  const { dark, light, isLightTheme } = useContext(ThemeContext);
+  const theme = isLightTheme ? light : dark;
+```
 
 
 
