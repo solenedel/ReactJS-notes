@@ -500,6 +500,75 @@ const BookList = () => {
   const theme = isLightTheme ? light : dark;
 ```
 
+ ## 15 - Creating a context with hooks
+
+ So far we've been creating context using class components. But we can use a functional component instead now that we have the useState hook. 
+
+ Let's create a new context called BookContext, using a functional component this time.
+
+ ```
+ import React, { createContext, useState } from 'react';
+
+export const BookContext = createContext();
+
+const BookContextProvider = (props) => {
+  
+  const [books, setBooks] = useState([
+    { title: 'book 1', id: 1 },
+    { title: 'book 2', id: 2 },
+    { title: 'book 3', id: 3 },
+  ]);
+
+  return ( 
+    <BookContext.Provider value={{books}}>
+      {props.children}
+    </BookContext.Provider>
+   );
+}
+``` 
+
+Since we only need this context inside the BookList component, that is the only thing we need to wrap <BookContextProvider> with in App.js.
+
+```
+ <div className="App">
+      <AuthContextProvider>
+        <ThemeContextProvider>
+          <Navbar />
+          <BookContextProvider>
+            <BookList />
+          </BookContextProvider>
+          <ThemeToggle />
+        </ThemeContextProvider>
+      </AuthContextProvider>
+    </div>
+```
+
+Now we need to consume the context inside the BookList component: 
+
+```
+
+const BookList = () => {
+
+   const { dark, light, isLightTheme } = useContext(ThemeContext);
+   const theme = isLightTheme ? light : dark;
+
+   const { books } = useContext(BookContext);
+
+  return ( 
+    <div className="book-list" style={{color: theme.text, background: theme.bg}}>
+      <ul>
+        {books.map( book => {
+          return (
+            <li key={book.id} style={{background: theme.ui}}>{book.title}</li>
+          )
+        })}
+      </ul>
+    </div>
+   );
+};
+```
+
+
 
 
 
@@ -516,5 +585,5 @@ const BookList = () => {
 
 Notes: 
 - useRef
-- React life cycle
+- React life cycle & class components
 - prev & spread syntax
