@@ -260,7 +260,7 @@ Add the ThemeToggle to App.js. The toggle button now works to change the theme.
 
 
 
- ## 6 - Creating multiple contexts
+ ## 7 - Creating multiple contexts
 
  What if we have more data we need to share between components, besides the theme data. For example, user authentication data. Should we put it in the same context as the theme? That wouldn't be a good idea, because the ThemeContext we created is only for the theme. 
 
@@ -311,7 +311,7 @@ function App() {
 In this case, it doesn't matter if we switch the positions of AuthContextProvider and ThemeContextProvider because they both wrap the same components. 
 
 
- ## 7 - Consuming multiple contexts
+ ## 8 - Consuming multiple contexts
 
  If we want to use two separate contexts in the same component, how do we do this?
 
@@ -356,6 +356,51 @@ In Navbar.js, surround the <ThemeContext.Consumer> with the new <AuthContext.Con
 ```
 
 Note how we changed the names of the parameters from `context` to `AuthContext` and `themeContext` since we now have more than one context being used. We now have access to both contexts in the Navbar component. 
+
+
+ ## 9 - Intro to hooks
+
+Hooks are special functions which allow us to do things inside functional components in React, that normally we would only need to do inside class components. For example, using state. 
+
+The most common hooks are: 
+
+- **useState()**: lets us use state inside functional components
+- **useEffect()**: lets us run code whenever a component renders or re-renders
+- **useContext()**: lets us use context in a functional component
+
+
+ ## 10 - useState hook
+
+ First, import useState from react. `useState()` accepts a value which is the initial value we want to set a piece of state to. `useState()` returns an array containing two values: 
+
+ 1. The piece of state itself
+ 2. The function we can use to edit the piece of state
+
+ We use array destructuring to get these two values: 
+
+ ```
+ const [songs, setSongs] = useState([ 
+   { title: 'song one', id: 1},
+   { title: 'song two', id: 2}
+  ])
+```
+
+ Now we can use the songs state in the component. If we wanted to add a new song to the list, we would use the `setSongs` function. But using `setSongs` will completely replace the previous songs array with whatever we passed as an argument to `setSongs`. Thus, if we want to just add a new song to the songs list, we need to use spread syntax:
+
+ ```
+  setSongs([...songs, { title: 'new song', id: 3 }]);
+ ```
+
+ NOTE: the song `id` is hard coded for this example, if we actually wanted to map through the songs in the app we would need a unique id, for example with the **uuid package**.
+
+ 
+ ## 11 - useState with forms
+
+
+
+
+
+
 
 
 
