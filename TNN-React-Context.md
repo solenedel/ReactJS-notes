@@ -388,13 +388,49 @@ The most common hooks are:
  Now we can use the songs state in the component. If we wanted to add a new song to the list, we would use the `setSongs` function. But using `setSongs` will completely replace the previous songs array with whatever we passed as an argument to `setSongs`. Thus, if we want to just add a new song to the songs list, we need to use spread syntax:
 
  ```
-  setSongs([...songs, { title: 'new song', id: 3 }]);
+ const addSong = (title) => {
+   setSongs([...songs, { title: title, id: 3 }]);
+ };
  ```
 
  NOTE: the song `id` is hard coded for this example, if we actually wanted to map through the songs in the app we would need a unique id, for example with the **uuid package**.
 
  
  ## 11 - useState with forms
+
+When there is a form in react, we usually keep track of what the user types in the form using state. 
+
+```
+<form onSubmit={}>
+  <input type="text" required onChange={(e) => {}}/>
+</form>
+```
+
+Not only do we need an event listener `onSubmit` on the form tag, we also want to track what the user types into the input using an `onChange` listener. This one uses the `event` object we have access to.  
+
+We need to create a new piece of state to keep track of what the user types in. 
+
+`const [title, setTitle] = useState('')`
+
+We use `setTitle` to update the `title` to whatever the user has typed in the input at that point in time. Finally, for this to work we need to add a `value` property to the input tag, and set it equal to `title`. 
+
+```
+  <input type="text" value={title} required onChange={ (e) => setTitle(e.target.value) }/>
+```
+
+Now let's move on to the function that runs when the form is submitted. 
+
+```
+const handleSubmit = (e) => {
+  e.preventDefault();  // prevent default page refresh on submission
+
+  addSong(title);
+
+  setTitle('');  // clears the text in the input after submission
+};
+```
+
+`<form onSubmit={handleSubmit}>`
 
 
 
