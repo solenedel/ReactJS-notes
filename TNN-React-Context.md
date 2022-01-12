@@ -650,9 +650,103 @@ The dispatch will be called to dispatch an action to the reducer. For example:
 `dispatch({ type: 'ADD_ONE' })`
 `dispatch({ type: 'ADD_NUM', num: 7 })`
 
-Note that in the second example, we provide the `num` property required by ADD_NUM as the second property of the action object. 
+Note that in the second example, we provide the `num` property required by ADD_NUM as the second property of the action object. This second property is called the **payload**.
 
 Thanks to this, we only ever need to pass in one function (the dispatch) to the Provider. We also keep all our state changing logic inside one reducer function. 
+
+
+ ## 20 - Adding a reducer
+
+Let's make a reducer for our Book List application. To kee things organised, create a `reducers` folder inside the `src` folder. 
+
+Inside it, create BookReducer.js:
+
+```
+export const BookReducer = (state, action) => {
+
+  switch(action.type) {
+    case 'ADD_BOOK': 
+      return [...state, {
+        title: action.book.title,
+        author: action.book.author,
+        id: v4(),
+      }]
+
+    case 'REMOVE_BOOK': 
+      return state.filter(book => book.id !== action.id);
+      
+    default: 
+      return state;
+  }
+
+};
+```
+
+Note that wherever we initially mentioned the variable `books`, we have now replaced it with `state` which is the equivalent inside a reducer function. 
+
+⚠️ How do we incorporate the `prev` logic inside the reducer function ??
+
+
+Now in BookContext.js, import the useReducer hook and remove the useState hook. 
+
+The file should now look like this: 
+
+```
+export const BookContext = createContext();
+
+const BookContextProvider = (props) => {
+
+  const [books, dispatch] = useReducer( BookReducer, []);
+
+  return ( 
+    <BookContext.Provider value={{books, dispatch}}>
+      { props.children }
+    </BookContext.Provider>
+   );
+}
+```
+
+NOTE: we removed the initial books in the starting `books` array so now we start with no books in the list.
+
+At this point, nothing works yet because we are still referencing the old functions `addBook` and `removeBook` in other components, but they no longer exist, we only have the dispatch method now. All we have to do is replace whatever function we had before, with `dispatch`.
+
+```
+const BookForm = () => {
+
+  const { dispatch } = useContext(BookContext);
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    dispatch({ type: 'ADD_BOOK', book: {
+      title,
+      author,
+    }}
+    );
+
+    setTitle('');
+    setAuthor('');
+  }
+```
+
+Similarly: 
+
+```
+const BookDetails = ({ book }) => {
+
+  const { dispatch } = useContext(BookContext);
+
+  return ( 
+    <li onClick={() => {
+      dispatch({ type: 'REMOVE_BOOK', id: book.id});
+      }}>
+```
+
+
+
+
 
 
 
