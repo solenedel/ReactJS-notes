@@ -744,6 +744,43 @@ const BookDetails = ({ book }) => {
       }}>
 ```
 
+ ## 21 - Adding local storage
+
+ Currently, refreshing our app will cause us to lose our state changes. To make them persist, we will use **local storage** (a way to store data in a user's browser).
+
+ The local storage can be viewed in the **applications tab** of the dev tools. We can see that local storage comes in the form of key-value pairs. The local storage can be cleared in the same tab. However, the value MUST BE A STRING. We can check our browser's local storage in the console:
+
+ `localStorage`
+
+ If there is currently nothing stored locally, it will say that the length is zero. If we expand the Prototype section, we can see a bunch of methods. We use `setItem` to add to local storage, and `getItem` to retrieve from local storage. 
+
+ We can add an item to local storage like so: 
+ `localStorage.setItem('name', 'bob')`
+
+ But our `books` data come in the form of objects. which can't save directly as objects in local storage. To solve this, we will `JSON.stringify()` our objects in order to store them. Then when we retrieve them, we will `JSON.parse()` them back into JS objects. 
+
+In our Book List app, we want to save the book to local storage every time we add one. We will use `useEffect` inside the BookContextProvider component to do this.
+
+To save the books to local storage: 
+
+```
+  useEffect(() => {
+    localStorage.setItem('books', JSON.stringify(books));
+  }, [books]);
+```
+
+At this point, if we refresh the page we will see that the local storage is set back to an empty array. This is because on the first render, we are setting books to be an empty array. We need to change the initial value of books to be whatever is already in local storage. 
+
+We can pass a third argument to useReducer- a function thet returns a value it should take as a default value (even if our second argument is an ampty array).
+
+```
+const [books, dispatch] = useReducer( BookReducer, [], () => {
+    const localData = localStorage.getItem('books');
+    return localData ? JSON.parse(localData) : [];
+  });
+```
+
+If there is something in localData, this is what will be used as the starting value of books. Otherwise, it will just be an empty array. 
 
 
 
