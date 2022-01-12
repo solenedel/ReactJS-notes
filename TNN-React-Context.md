@@ -569,6 +569,91 @@ const BookList = () => {
 ```
 
 
+ ## 16 - Reading List App (Part 1)
+
+ We will create a brand new Reading List Project. 
+ See the **book-list** repo.
+
+ ## 17 - Reading List App (Part 2)
+
+  See the **book-list** repo.
+
+ ## 18 - Reading List App (Part 3)
+
+  See the **book-list** repo.
+
+
+ ## 19 - Reducers, Actions & State
+
+ A **reducer** is a pattern of coding which centralises all methods for changing state into a single function. For example in our Book List app, both `addBook` and `removeBook` interact with the state of `books`. In a bigger app, we could have maybe 4-5 different ways to change this state. 
+
+ Then, we would have to pass each of those functions inside the `value` attribute of the Context.Provider, and then to consume the context we would have to destructure all of them one by one in our components that use them. 
+
+ Instead, what we could do is move all our functions that change the same state, into a single reducer function. This makes our code easier to maintain in the long run. 
+
+- The **reducer function** interacts with the state and changes the data. 
+- The **Action object** describes the type of change we want to make inside the reducer function. Ex. { type: 'ADD_BOOK' }
+- The **dispatch function** sends the action to the reducer. 
+
+The reducer takes in the state of whatever data we are manipulating as the first parameter, and the action (object) as a second parameter. 
+
+`reducer(state, action)`
+
+When the reducer runs, it looks at the type of action, and based on that, runs different logic to update the state. Once updated, we return the state, which goes back into the provider value. 
+
+In order to use reducers, we need to import the `useReducer` hook. 
+
+Example: (this is inside a context provider file)
+
+Initially we don't use a reducer, and we have:
+`const [age, setAge] = useState(20)`
+
+We import useReducer and modify this code to: 
+`const [age, dispatch] = useReducer(ageReducer, 20)`
+
+This says we want to use a reducer called `ageReducer` to control the `age` state. The second argument is still the initial value of the state. 
+
+The dispatch method will be the function we use to send our action to the `ageReducer`.
+
+Now let's define the `ageReducer` (outside the functional component):
+
+```
+const ageReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD ONE':
+      return state + 1;
+    case 'ADD FIVE':
+      return state + 5;  
+    case 'ADD NUM':
+      return state + action.num; 
+    default:
+      return state; 
+  }
+};
+```
+
+If we were not using a reducer, inside our <AgeContextProvider> functional component, we would have defined our functions like so:
+
+```
+const addOneToAge = () => setAge(age + 1);
+const addFiveToAge = () => setAge(age + 5);
+const addNumToAge = (num) => setAge(age + num);
+```
+We would also pass in each of these functions to the <AgeContext.Provider> in the `values` attribute. 
+
+Now that we are using a reducer, we only need to pass in the dispatch: 
+
+`<AgeContext.Provider value={age, dispatch}>`
+
+The dispatch will be called to dispatch an action to the reducer. For example: 
+
+`dispatch({ type: 'ADD_ONE' })`
+`dispatch({ type: 'ADD_NUM', num: 7 })`
+
+Note that in the second example, we provide the `num` property required by ADD_NUM as the second property of the action object. 
+
+Thanks to this, we only ever need to pass in one function (the dispatch) to the Provider. We also keep all our state changing logic inside one reducer function. 
+
 
 
 
