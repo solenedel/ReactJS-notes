@@ -89,5 +89,14 @@ With useEffect, we can store the previous value of a state every time it changes
 Refs are great for accessing DOM elements and presisting values across re-renders, without actually causing a re-render. 
 
 
+## useHistory hook
+- this hook is imported from reqct-router-dom. It is often used for page redirections.
+
+https://www.youtube.com/watch?v=0ZRup5eSReo
+https://reactgo.com/react-router-usehistory-hook/
+
+
+## useLocation hook
+
 ### sources 
 [useRef](https://www.youtube.com/watch?v=t2ypzz6gJm0)
