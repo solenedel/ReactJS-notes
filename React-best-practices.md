@@ -26,21 +26,7 @@ src/components/SearchBar -> [ useSearchBar.js (logical) & SearchBar.jsx (present
                        
 ### EXAMPLE
 
-Presentational component: Counter.js
-```
-  export default Counter = () => {
-
-    return (
-      <>
-        {counterVal}
-        <button onClick={increment}>increment</button>
-      </>
-    );
-  };
-```
-
-
-Logical component: useCounter.js (hook)
+**Logical component: useCounter.js (hook)**
 ```
   export default useCounter = () => {
     const [ counterVal, setCounterVal ] = useState(0);
@@ -54,6 +40,37 @@ Logical component: useCounter.js (hook)
 ```
 Note that in the logical component we don't return any JSX related to the UI. 
 
+
+**Presentational component: Counter.js**
+```
+  export default Counter = () => {
+
+    const { increment, counterVal } = Counter(); // remember to import the counter component in the file
+
+    return (
+      <>
+        {counterVal}
+        <button onClick={increment}>increment</button>
+      </>
+    );
+  };
+```
+
+## 2. Avoid using inline lambdas inside JSX
+
+**Inline lambdas** in JS are basically anonymous function expressions inserted directly where they are to be used. In react, an example of this would be: 
+
+```
+<button onClick={() => setCounterVal(counterVal + 1)}>
+  increment
+</button>
+```
+As opposed to using the already defined `increment` function. This is fine but there are some potential problems with using inline expressions like this in React. 
+
+- Every time a component is re-rendered in react, the part of the component file that re-runs is only the return statement with JSX. 
+- This means any pre-defined functions that are outside the JSX return statement will not be re-run at every render. 
+- However if we use anonymous inline lambdas inside the JSX, at every re-render, this lambda expression will be re-created as well, even if there is no need. 
+- another reason to pass in pre-defined functions rather than inline lambdas is that the JSX looks cleaner and there is less logic mixed in with it. 
 
 
 ### sources 
