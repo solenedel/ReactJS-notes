@@ -72,6 +72,39 @@ As opposed to using the already defined `increment` function. This is fine but t
 - However if we use anonymous inline lambdas inside the JSX, at every re-render, this lambda expression will be re-created as well, even if there is no need. 
 - another reason to pass in pre-defined functions rather than inline lambdas is that the JSX looks cleaner and there is less logic mixed in with it. 
 
+## 3. Structuring the application
+
+General tips to structure an application with many files:
+
+### src / App.js
+- apart from defining routes for the react router, there is not much else to put here. 
+
+### src / ROUTES / PAGE
+- Inside the `src` folder, create a `routes` or `pages` folder which will contain the different pages as defined in the react router. 
+- For each page, create a separate folder which will contain the components used in that page. 
+- for example there could be folders called `Home`, `Login`, etc. 
+- A specific page's folder would contain both UI, styling and logic files for that component. 
+
+### src / COMPONENTS / COMPONENT
+- The point of this components folder is to put only **reusable components**. 
+- For example, the **footer and the navbar -> they are not pages!** They are used in every page of the app so should be in the components folder. 
+- The Navbar and Footer files should be in their respective folders within the components folder. 
+
+### Other folders in src
+
+Examples of folders that could also be nested in `src`:
+- `helpers` for various helper functions used in several different components
+- `hooks` if the hooks are to be reused in many other components (otherwise can be put in respective page folders)
+- `context` if context is used in the app
+- `validations` for HTML inputs
+- `Errors` for error components and logic
+
+
+## 4. use a linter
+
+## 5. use styled components
+
+- although it's possible to have the styled in the same file as the UI of a component, it's better to have a separate StyledComponent with only the CSS, so that the component file does not get too long and messy. 
 
 ### sources 
 https://www.youtube.com/watch?v=ocKqJCYkJCs
