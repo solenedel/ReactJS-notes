@@ -14,7 +14,6 @@
 - components that are purely for UI should **not have states declared** inside them.
 - and should not have any logic such as event handler functions - leave only the returned JSX in this component. 
 
-
 **logical component:**
 - this is essentially a **custom hook** which contains all the state and logic needed in a particular presentational component. 
 - In terms of organisation, there are two options:
@@ -25,6 +24,35 @@ B. Separate each "component set" (aka one presentational + the corresponding log
 
 src/components/SearchBar -> [ useSearchBar.js (logical) & SearchBar.jsx (presentational)]
                        
+### EXAMPLE
+
+Presentational component: Counter.js
+```
+  export default Counter = () => {
+
+    return (
+      <>
+        {counterVal}
+        <button onClick={increment}>increment</button>
+      </>
+    );
+  };
+```
+
+
+Logical component: useCounter.js (hook)
+```
+  export default useCounter = () => {
+    const [ counterVal, setCounterVal ] = useState(0);
+
+    const increment = () => {
+      setCounterVal(counterVal + 1);
+    };
+
+    return { counterVal, increment };
+  };
+```
+Note that in the logical component we don't return any JSX related to the UI. 
 
 
 
