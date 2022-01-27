@@ -1,6 +1,6 @@
 # React Fragments
 
-Fragments are used like JSX tags, except that they **do not render additional nodes to the DOM**. They are useful in many situations where we would normally wrap content in a redundant <div> or <span> tag simply because a react component can only return one (top-level) element. 
+Fragments are used like JSX tags, except that they **do not render additional nodes to the DOM**. They are useful in many situations where we would normally wrap content in a redundant <div> or <span> tag simply because a react component can only return one (top-level) element. Likewise, conditional expressions that resolve to JSX must also only have one root element. Extra unnecessary <div> tags can result in bugs related to CSS.
 
 A great time to use fragments is when mapping through items in an array. 
 
@@ -32,7 +32,7 @@ const Component = () => {
     </React.Fragment> 
   );
 
-}
+};
 ```
 
 ## Fragments & styling
