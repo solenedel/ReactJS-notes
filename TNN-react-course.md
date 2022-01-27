@@ -211,7 +211,7 @@ We need to write `handleDelete` in a way that does not mutate the original `blog
 ```
 This filters out the id which matches that of the blog we clicked on, and now the newBlogs array does not contain the blog we filtered out. Then we set the new value of `blogs` to be `newBlogs`.
 
-
+**note about props:** only pass props that you are going to directly reference in the component. If you only use the `setState` function, don't also pass in the `state` variable as a prop, and vise versa. 
 
  ## Lesson 14: The useEffect Hook
 

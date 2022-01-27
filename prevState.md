@@ -129,15 +129,15 @@ We don't necessarily need to use `prev` every single time we change state, but n
 If you are directly referencing the previous state when setting a new value for the state, then use prev.
 
 For example: 
-`setState(!state)` For true/false states
-`setState(state + 1)`
-`setState([...state, newValue])`
+- `setState(!state)` For true/false states
+- `setState(state + 1)`
+- `setState([...state, newValue])`
 
 In these cases, because we are making direct reference to `state`, then we should use previous state to set these. 
 
 `setState((prev) => !prev)` 
 
-Otherwise, if you are setting a state absolutely (not relative to the current state, then using prev is not essential. 
+Otherwise, if you are setting a state absolutely (not relative to the current state), then using prev is not essential. 
 
 For example: `setState(0)` 
 In this case we want to set the state to zero regardless of what value the current state has. Using previous state here is not necessary. 
