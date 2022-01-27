@@ -1,5 +1,7 @@
 # How to connect to a Database (NodeJS) and pass the data to React front end
 
+# PART 1: setting up the database in Postgres and Node 
+
 ## 1. Open PSQL in the command line (from project directory)
 
 1. `CREATE DATABASE databasename;`
@@ -96,7 +98,7 @@ In the terminal, once connected to the correct database (from the correct projec
 ## 8. Make a test request from node to the database
 
 ```
-app.get("/", (req, res) => {
+app.get("/testdb", (req, res) => {
   const queryText = `SELECT * FROM users;`;
 
   db.query(queryText)
@@ -109,3 +111,26 @@ app.get("/", (req, res) => {
     });
 });
 ```
+
+
+# PART 2: Sending data from database to React front end
+
+In the previous code snippet, we are making a request from the node server to the database when we go to `http://localhost:8081/dbtest` and returning data from the database query. 
+
+Now, we need a corresponding GET request made on the React front end using axios:
+
+```
+useEffect(() => {
+    axios
+      .get("http://localhost:8081/dbtest")
+      .then((response) => {
+        console.log("DATA FROM DATABASE", response.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+```
+
+By making the request on the front end to the same URL, `response.data` gives us the data we got from the database in the back end (`results.rows`);
+
+
+
