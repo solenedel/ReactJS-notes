@@ -75,8 +75,54 @@ const updateValues = (newVal) => {
 
 ```
 
-A new array is created in order to avoid mutating the original array. This is the standard method that doesn't use the previous state. 
+A new array is created in order to avoid mutating the original array. This is the typical method that doesn't use the previous state. 
 
+```
+const updateValues = (newVal) => {
+  setValues([...values, newVal]);   
+  setValues([...values, newVal]);   
+};
+```
+If we try to update the state twice like above, React would once again batch the updates, and the `newVal` would only be added to the array once.
+
+Now let's modify it to use the previous state:
+```
+const updateValues = (newVal) => {
+  setValues((prev) => [...prev, newVal]);   
+  setValues((prev) => [...prev, newVal]);  
+};
+```
+This will now work as we want. 
+
+
+## Previous state when updating objects
+
+In React, updating an object will not directly merge the properties. In the example below, when the state is updated, the object will now only have the `last` property. 
+
+```
+const [values, setValues] = useState({ first: "", last: "" });
+
+const updateValues = (newVal) => {
+  setValues({ last: "Kim" });   
+};
+
+```
+
+The correct way is to use the spread operator. Now all properties will be there.
+```
+const updateValues = (newVal) => {
+  setValues({ ...values, last: "Kim" });   
+};
+```
+
+Using previous state, it would look like this:
+```
+const updateValues = (newVal) => {
+  setValues((prev) => { ...prev, last: "Kim" });   
+};
+```
+
+We don't necessarily need to use `prev` every single time we change state, but nothing could go wrong from using it every time. The reason is that as more components are added and if several components update the same state, these state updates may be done asynchronously, therefore the wrong state could be a result.
 
 
 
