@@ -124,6 +124,27 @@ const updateValues = (newVal) => {
 
 We don't necessarily need to use `prev` every single time we change state, but nothing could go wrong from using it every time. The reason is that as more components are added and if several components update the same state, these state updates may be done asynchronously, therefore the wrong state could be a result.
 
+## Rule of thumb
+
+If you are directly referencing the previous state when setting a new value for the state, then use prev.
+
+For example: 
+`setState(!state)` For true/false states
+`setState(state + 1)`
+`setState([...state, newValue])`
+
+In these cases, because we are making direct reference to `state`, then we should use previous state to set these. 
+
+`setState((prev) => !prev)` 
+
+Otherwise, if you are setting a state absolutely (not relative to the current state, then using prev is not essential. 
+
+For example: `setState(0)` 
+In this case we want to set the state to zero regardless of what value the current state has. Using previous state here is not necessary. 
+
+
+
+
 
 
 ## Sources
