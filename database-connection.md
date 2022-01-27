@@ -76,8 +76,8 @@ module.exports = dbParams;
 ```
 DB_HOST=localhost
 DB_USER=postgres
-DB_PASS=projectname
-DB_NAME=projectname
+DB_PASS=nameofdatabase
+DB_NAME=nameofdatabase
 DB_PORT=5432
 ```
 
@@ -93,4 +93,19 @@ In the terminal, once connected to the correct database (from the correct projec
 `\i server/db/schema.sql`
 `\i server/db/seeds.sql`
 
+## 8. Make a test request from node to the database
 
+```
+app.get("/", (req, res) => {
+  const queryText = `SELECT * FROM users;`;
+
+  db.query(queryText)
+    .then((results) => {
+      res.json(results.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json([]);
+    });
+});
+```
