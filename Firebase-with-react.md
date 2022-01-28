@@ -30,6 +30,8 @@ const firebaseConfig = {
 };
 ```
 
+NOTE: is it ok to expose the api key???
+
 initializeApp is the function we call to create the connection. It takes the firebaseConfig object as a parameter. 
 
 `const app = initializeApp(firebaseConfig)`
@@ -37,5 +39,26 @@ initializeApp is the function we call to create the connection. It takes the fir
 At this point, there may be a connection but we don't have a Firestore database yet, so we need to create one. 
 
 ## Creating a Firestore database
+
+8. In Firebase website, go to Firestore Database > create database (start in production mode). For the location of the database hosting, it should be according to where most of the users would be. Default to US-central.
+
+9. Once the database is created, go to the **rules** tab which determines what can happen from a connection to the database. 
+
+10. Allow reading & writing to the database- change `false` to `true`.
+
+Firestore is a NoSQL database. It works with collections, which are similar to SL tables. A document is like a row in the table.
+
+11. Create a collection calles users and documents. (auto-generate the IDs)
+
+Now the database is set up, but not yet connected to our React app. 
+
+## Connecting the Firestore db to React
+
+In firebase-config.js: 
+
+
+// stopped tutorial at 14:47
+
+https://www.youtube.com/watch?v=jCY6DH8F4oc&ab_channel=PedroTech
 
 
